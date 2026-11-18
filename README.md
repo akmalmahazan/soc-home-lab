@@ -4,6 +4,8 @@ A home-built Security Operations Center (SOC) that automatically **detects cyber
 
 I built this from scratch to understand how real security teams detect and respond to attacks, not just read about it.
 
+![Brute force detected in Wazuh](screenshots/09-brute-force-detected.png)
+
 ---
 
 ## 📌 Overview
@@ -47,6 +49,10 @@ When an attack happens on the monitored machine, the entire chain runs by itself
                   └──────────────┘                    └──────────────┘
 ```
 
+The automation workflow in n8n:
+
+![n8n workflow](screenshots/03-n8n-workflow.png)
+
 ---
 
 ## 🧰 Tech Stack
@@ -69,7 +75,9 @@ When an attack happens on the monitored machine, the entire chain runs by itself
 3. Alerts of **level 7 or higher** trigger a custom integration script (`custom-n8n`).
 4. The script forwards the alert to **n8n** through a webhook.
 5. n8n **filters** the alert, looks up the attacker IP on **AbuseIPDB**, and **throttles** repeats.
-6. A clean, readable alert is sent to **Telegram**.
+6. A clean, readable alert is sent to **Telegram**:
+
+![Telegram alert](screenshots/04-telegram-alert.png)
 
 ---
 
@@ -85,6 +93,10 @@ When an attack happens on the monitored machine, the entire chain runs by itself
 
 \* **Key lesson:** a host-based SIEM can't see a quiet network scan because it leaves no log entry. This is exactly why a network IDS (Suricata) is next on the roadmap.
 
+Wazuh automatically maps each attack to **MITRE ATT&CK** techniques:
+
+![MITRE ATT&CK mapping](screenshots/11-mitre-attack-mapping.png)
+
 ---
 
 ## 💡 Key Findings
@@ -92,6 +104,10 @@ When an attack happens on the monitored machine, the entire chain runs by itself
 - **Host-based vs network detection:** Wazuh caught login and web attacks but was blind to the Nmap port scan. Full coverage needs a network IDS too.
 - **Alert fatigue is real:** a single Nikto scan generated **8,000+ alerts** and flooded Telegram. I added **IP-based rate-limiting** in n8n, bringing it down to ~2 alerts per attack.
 - **MITRE ATT&CK mapping:** Wazuh automatically mapped the attacks to techniques such as Brute Force (T1110) and Password Guessing.
+
+The flood before the fix, and the throttle (a small n8n Code node) that solved it:
+
+![Alert fatigue flood](screenshots/12-alert-fatigue-flood.png)
 
 ---
 
@@ -115,13 +131,25 @@ When an attack happens on the monitored machine, the entire chain runs by itself
 
 ---
 
-## 📸 Screenshots
+## 📸 More Screenshots
 
-See the [`screenshots/`](screenshots/) folder for:
-- Wazuh dashboard detecting the attacks
-- MITRE ATT&CK technique mapping
-- Telegram alerts from the automated pipeline
-- The n8n workflow
+All screenshots are in the [`screenshots/`](screenshots/) folder:
+
+| File | Shows |
+|------|-------|
+| `01-wazuh-overview.png` | Wazuh dashboard overview |
+| `02-agent-active.png` | Monitored endpoint connected |
+| `03-n8n-workflow.png` | The SOAR automation workflow |
+| `04-telegram-alert.png` | Automated Telegram alert |
+| `05-nmap-scan.png` | Nmap port scan (Kali) |
+| `06-nmap-not-detected.png` | Host-based SIEM blind spot |
+| `07-metasploit-bruteforce.png` | Metasploit SSH brute force |
+| `08-medusa-bruteforce.png` | Medusa SSH brute force |
+| `09-brute-force-detected.png` | Brute force detected in Wazuh |
+| `10-nikto-webscan.png` | Nikto web vulnerability scan |
+| `11-mitre-attack-mapping.png` | MITRE ATT&CK technique mapping |
+| `12-alert-fatigue-flood.png` | Alert flood (before throttling) |
+| `13-throttle-code.png` | The rate-limiting fix in n8n |
 
 ---
 

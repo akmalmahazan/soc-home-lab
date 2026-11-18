@@ -1,0 +1,17 @@
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_SECURE_COOKIE=false                      # lab only: allows login over plain HTTP
+      - WEBHOOK_URL=http://192.168.0.229:5678/        # replace with your n8n server IP
+      - N8N_WEBHOOK_URL=http://192.168.0.229:5678/
+      - GENERIC_TIMEZONE=Asia/Kuala_Lumpur
+      - TZ=Asia/Kuala_Lumpur
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:

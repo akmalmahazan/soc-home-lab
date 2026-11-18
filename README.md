@@ -156,3 +156,6 @@ All screenshots are in the [`screenshots/`](screenshots/) folder:
 ## ⚠️ Disclaimer
 
 This is a learning lab built on **isolated virtual machines that I own**. Every attack was performed against **my own systems**. Never attack systems you do not have explicit permission to test.
+
+## Acknowledgements
+Built as a self-learning project, with Claude (AI) used as a study assistant to explain concepts along the way.

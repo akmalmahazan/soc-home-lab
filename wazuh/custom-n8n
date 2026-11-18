@@ -1,0 +1,12 @@
+#!/var/ossec/framework/python/bin/python3
+import sys
+import json
+import requests
+
+alert_file = sys.argv[1]   # path to the alert file Wazuh provides
+hook_url = sys.argv[3]     # the n8n webhook URL from ossec.conf
+
+with open(alert_file) as f:
+    alert = json.load(f)
+
+requests.post(hook_url, json=alert, timeout=10)

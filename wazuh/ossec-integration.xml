@@ -1,0 +1,10 @@
+<!-- Add inside <ossec_config> in /var/ossec/etc/ossec.conf on the Wazuh server -->
+<!-- Then set permissions on the script:
+     sudo chmod 750 /var/ossec/integrations/custom-n8n
+     sudo chown root:wazuh /var/ossec/integrations/custom-n8n -->
+<integration>
+  <name>custom-n8n</name>
+  <hook_url>http://192.168.0.229:5678/webhook/wazuh-alert</hook_url>
+  <level>7</level>
+  <alert_format>json</alert_format>
+</integration>
